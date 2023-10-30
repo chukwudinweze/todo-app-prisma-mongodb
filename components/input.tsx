@@ -10,7 +10,7 @@ const Input = () => {
   const createTodo = (e: React.FormEvent) => {
     e.preventDefault();
     if (!todoValue) {
-      alert("Input value");
+      alert("Please enter a value");
       return;
     }
     setIsLoading(true);
@@ -39,7 +39,7 @@ const Input = () => {
         type="submit"
         disabled={isLoading}
       >
-        Add todo
+        Add
       </button>
     </form>
   );

@@ -3,17 +3,17 @@ import TodoItem from "./todo-item";
 const TodoList = () => {
   // fetch todo
   const todo = [
-    { title: "eat rice", id: "1" },
-    { title: "eat rice", id: "1" },
+    { title: "Drink Water", id: "1" },
+    { title: "Have some rest", id: "2" },
     ,
-    { title: "eat rice", id: "1" },
+    { title: "Take a walk", id: "3" },
   ];
   return (
-    <div className="w-full rounded-sm border p-3 space-y-2">
+    <ul className="w-full rounded-sm border p-3 space-y-2">
       {todo.map((todo) => (
-        <TodoItem key={todo?.id} title={todo?.id!} id={todo?.id!} />
+        <TodoItem key={todo?.id} title={todo?.title!} id={todo?.id!} />
       ))}
-    </div>
+    </ul>
   );
 };
 
