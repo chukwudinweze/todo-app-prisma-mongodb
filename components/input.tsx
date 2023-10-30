@@ -6,13 +6,14 @@ const Input = () => {
   const [todoValue, setTodoValue] = useState("");
   const createTodo = (e: React.FormEvent) => {
     e.preventDefault();
+    // Todo: post to the db
     console.log("todo created", todoValue);
     setTodoValue("");
   };
   return (
     <form
       onSubmit={createTodo}
-      className="w-full flex border border-slate-400 rounded-sm mt-5"
+      className="w-full flex border border-slate-400 rounded-sm mt-5 mb-5"
     >
       <input
         className=" py-2 px-4 w-full outline-none "

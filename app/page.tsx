@@ -1,4 +1,5 @@
 import Input from "@/components/input";
+import TodoList from "@/components/todo-list";
 import React from "react";
 
 const RootPage = () => {
@@ -8,6 +9,7 @@ const RootPage = () => {
         Todo List
       </h1>
       <Input />
+      <TodoList />
     </div>
   );
 };
