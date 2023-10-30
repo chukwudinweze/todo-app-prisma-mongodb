@@ -3,15 +3,16 @@ import { Check, CheckCircle, Pencil, Trash2 } from "lucide-react";
 interface TodoItemProps {
   title: string;
   id: string;
+  handleEdit: ({ title, id }: { title: string; id: string }) => void;
 }
 
-const TodoItem = ({ title, id }: TodoItemProps) => {
+const TodoItem = ({ title, id, handleEdit }: TodoItemProps) => {
   const completeTodo = () => {
     alert("task completed");
   };
 
   const editTask = () => {
-    alert("edit task completed");
+    handleEdit({ title, id });
   };
 
   const deleteTask = () => {
@@ -21,7 +22,7 @@ const TodoItem = ({ title, id }: TodoItemProps) => {
     <li className="w-full rounded-sm border p-2 flex">
       {title}
       <div className="ml-auto flex space-x-6">
-        <button className="px-1">
+        <button onClick={editTask} className="px-1">
           <Pencil className="text-slate-500" />
         </button>
         <button className="px-1" type="submit">

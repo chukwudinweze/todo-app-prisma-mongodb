@@ -1,11 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const Input = () => {
+interface InputProps {
+  isEditing: boolean;
+  itemToEditTitle: string;
+}
+
+const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
   const [todoValue, setTodoValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isEditing) {
+      setTodoValue(itemToEditTitle);
+    }
+  }, [isEditing, itemToEditTitle]);
 
   const createTodo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,11 +46,13 @@ const Input = () => {
         onChange={(e) => setTodoValue(e.target.value)}
       />
       <button
-        className="rounded-r-sm w-24 text-white bg-slate-500/75 font-bold hover:bg-slate-500"
+        className={`rounded-r-sm w-24 text-white bg-slate-500/75 font-bold hover:bg-slate-500 ${
+          todoValue && "bg-slate-500"
+        }`}
         type="submit"
         disabled={isLoading}
       >
-        Add
+        {isEditing ? "Edit" : "Add"}
       </button>
     </form>
   );
