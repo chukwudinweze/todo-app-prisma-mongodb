@@ -27,7 +27,7 @@ const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
     }
 
     setIsLoading(true);
-    // Todo: post to the db
+
     try {
       const apiUrl = "/api/todo/create";
 
@@ -46,16 +46,12 @@ const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
           `Failed to post title: ${response.status} - ${response.statusText}`
         );
       }
-
+      setTodoTitle("");
       toast.success("Todo created");
-      // const responseData = await response.json();
-      // return responseData;
     } catch (error) {
       console.log(error);
-
-      toast.error("something happened");
+      toast.error("something went wrong");
     } finally {
-      setTodoTitle("");
       setIsLoading(false);
     }
   };
