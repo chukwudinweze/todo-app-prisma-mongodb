@@ -9,27 +9,55 @@ interface InputProps {
 }
 
 const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
-  const [todoValue, setTodoValue] = useState("");
+  const [todoTitle, setTodoTitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isEditing) {
-      setTodoValue(itemToEditTitle);
+      setTodoTitle(itemToEditTitle);
     }
   }, [isEditing, itemToEditTitle]);
 
-  const createTodo = (e: React.FormEvent) => {
+  const createTodo = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!todoValue) {
-      alert("Please enter a value");
+
+    if (!todoTitle) {
+      alert("Title required");
       return;
     }
+
     setIsLoading(true);
     // Todo: post to the db
-    console.log("todo created", todoValue);
-    toast.success("Todo created");
-    setTodoValue("");
-    setIsLoading(false);
+    try {
+      const apiUrl = "/api/todo/create";
+
+      const requestData = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ todoTitle }),
+      };
+
+      const response = await fetch(apiUrl, requestData);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to post title: ${response.status} - ${response.statusText}`
+        );
+      }
+
+      toast.success("Todo created");
+      // const responseData = await response.json();
+      // return responseData;
+    } catch (error) {
+      console.log(error);
+
+      toast.error("something happened");
+    } finally {
+      setTodoTitle("");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -42,12 +70,12 @@ const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
         className=" py-2 px-4 w-full outline-none "
         type="text"
         placeholder="Create todo..."
-        value={todoValue}
-        onChange={(e) => setTodoValue(e.target.value)}
+        value={todoTitle}
+        onChange={(e) => setTodoTitle(e.target.value)}
       />
       <button
         className={`rounded-r-sm w-24 text-white bg-slate-500/75 font-bold hover:bg-slate-500 ${
-          todoValue && "bg-slate-500"
+          todoTitle && "bg-slate-500"
         }`}
         type="submit"
         disabled={isLoading}
