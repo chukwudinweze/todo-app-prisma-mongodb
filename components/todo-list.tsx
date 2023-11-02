@@ -43,6 +43,7 @@ const TodoList = ({ handleEdit }: TodoListProps) => {
           key={todo?.id}
           title={todo?.title}
           id={todo?.id}
+          isCompleted={todo?.isCompleted!}
           handleEdit={handleEdit}
         />
       ))}
