@@ -1,4 +1,6 @@
-import { Check, CheckCircle, Pencil, Trash2 } from "lucide-react";
+"use client";
+
+import { CheckCircle, Pencil, Trash2 } from "lucide-react";
 
 interface TodoItemProps {
   title: string;
@@ -13,6 +15,7 @@ const TodoItem = ({ title, id, handleEdit }: TodoItemProps) => {
 
   const editTask = () => {
     handleEdit({ title, id });
+    alert("task ");
   };
 
   const deleteTask = () => {
@@ -28,7 +31,7 @@ const TodoItem = ({ title, id, handleEdit }: TodoItemProps) => {
         <button className="px-1" type="submit">
           <CheckCircle className="text-green-300" />
         </button>
-        <button className="px-1" type="submit">
+        <button onClick={deleteTask} className="px-1" type="submit">
           <Trash2 className="text-red-600" />
         </button>
       </div>

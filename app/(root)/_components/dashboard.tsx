@@ -2,7 +2,7 @@
 
 import Input from "@/components/input";
 import TodoList from "@/components/todo-list";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 const Dashboard = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -15,10 +15,6 @@ const Dashboard = () => {
     },
     []
   );
-
-  useEffect(() => {
-    console.log(isEditing, itemToEdit);
-  }, [isEditing, itemToEdit]);
 
   return (
     <div>

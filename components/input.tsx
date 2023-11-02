@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -46,8 +47,12 @@ const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
           `Failed to post title: ${response.status} - ${response.statusText}`
         );
       }
+
       setTodoTitle("");
       toast.success("Todo created");
+
+      // refresh page on successful request
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error("something went wrong");
