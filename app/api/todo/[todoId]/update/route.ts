@@ -7,17 +7,14 @@ export async function PATCH(
   { params }: { params: { todoId: string } }
 ) {
   try {
-    // destructure todo from params
-    const { todoId } = params;
-
-    if (!todoId) {
+    if (!params.todoId) {
       return new NextResponse("Not found", { status: 404 });
     }
 
     // update todo
     const updatedTodo = await db.todo.update({
       where: {
-        id: todoId,
+        id: params.todoId,
       },
       data: {
         isCompleted: true,
