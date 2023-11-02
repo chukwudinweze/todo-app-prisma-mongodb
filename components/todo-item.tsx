@@ -1,17 +1,55 @@
 "use client";
 
 import { CheckCircle, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface TodoItemProps {
   title: string;
   id: string;
   isCompleted?: boolean;
+  updatedAt: string;
   handleEdit: ({ title, id }: { title: string; id: string }) => void;
 }
 
-const TodoItem = ({ title, id, isCompleted, handleEdit }: TodoItemProps) => {
-  const completeTodo = () => {
-    alert("task completed");
+const TodoItem = ({
+  title,
+  id,
+  isCompleted,
+  updatedAt,
+  handleEdit,
+}: TodoItemProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const completeTodo = async () => {
+    try {
+      const apiUrl = `/api/todo/${id}/update`;
+
+      const requestData = {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const response = await fetch(apiUrl, requestData);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to post title: ${response.status} - ${response.statusText}`
+        );
+      }
+
+      toast.success("Todo updated");
+
+      // refresh page on successful request
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const editTask = () => {
@@ -19,8 +57,8 @@ const TodoItem = ({ title, id, isCompleted, handleEdit }: TodoItemProps) => {
     alert("task ");
   };
 
-  const deleteTask = () => {
-    alert("delete task completed");
+  const deleteTask = async () => {
+    alert("deleted");
   };
 
   const todoItemStyle = isCompleted
@@ -32,7 +70,9 @@ const TodoItem = ({ title, id, isCompleted, handleEdit }: TodoItemProps) => {
       {title}
       <div className="ml-auto flex space-x-6">
         {isCompleted && (
-          <p className="text-slate-600 text-xs italic">completed</p>
+          <p className="text-slate-600 text-xs italic font-bold">
+            completed on {updatedAt}
+          </p>
         )}
         {!isCompleted && (
           <button onClick={editTask} className="px-1">

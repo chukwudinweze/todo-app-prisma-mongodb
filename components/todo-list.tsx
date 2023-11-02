@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import TodoItem from "./todo-item";
 import { Todo } from "@prisma/client";
 import toast from "react-hot-toast";
+import { formatDate } from "@/lib/format-date";
 
 interface TodoListProps {
   handleEdit: ({ title, id }: { title: string; id: string }) => void;
@@ -38,15 +39,19 @@ const TodoList = ({ handleEdit }: TodoListProps) => {
 
   return todos.length > 0 ? (
     <ul className="w-full rounded-sm border p-3 space-y-2">
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo?.id}
-          title={todo?.title}
-          id={todo?.id}
-          isCompleted={todo?.isCompleted!}
-          handleEdit={handleEdit}
-        />
-      ))}
+      {todos.map((todo) => {
+        const updatedDate = formatDate(todo.updatedAt);
+        return (
+          <TodoItem
+            key={todo?.id}
+            title={todo?.title}
+            id={todo?.id}
+            isCompleted={todo?.isCompleted!}
+            updatedAt={updatedDate}
+            handleEdit={handleEdit}
+          />
+        );
+      })}
     </ul>
   ) : (
     []

@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 
 import { NextResponse } from "next/server";
 
-export async function POST(
+export async function PATCH(
   req: Request,
   { params }: { params: { todoId: string } }
 ) {
@@ -10,15 +10,8 @@ export async function POST(
     // destructure todo from params
     const { todoId } = params;
 
-    // detsrtucture isCompleted from the request body
-    const { isCompleted } = await req.json();
-
     if (!todoId) {
       return new NextResponse("Not found", { status: 404 });
-    }
-
-    if (!isCompleted) {
-      return new NextResponse("Not allowed", { status: 405 });
     }
 
     // update todo
