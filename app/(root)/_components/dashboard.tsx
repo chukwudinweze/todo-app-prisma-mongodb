@@ -21,7 +21,7 @@ const Dashboard = () => {
       <h1 className="flex justify-center font-bold text-6xl mt-6 pb-2 border-b border-b-1 border-slate-400">
         Todo List
       </h1>
-      <Input isEditing={isEditing} itemToEditTitle={itemToEdit.title} />
+      <Input isEditing={isEditing} itemToEdit={itemToEdit} />
       <TodoList handleEdit={handleEdit} />
     </div>
   );

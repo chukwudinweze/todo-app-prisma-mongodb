@@ -1,23 +1,22 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface InputProps {
   isEditing: boolean;
-  itemToEditTitle: string;
+  itemToEdit: { id: string; title: string };
 }
 
-const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
+const Input = ({ isEditing, itemToEdit }: InputProps) => {
   const [todoTitle, setTodoTitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isEditing) {
-      setTodoTitle(itemToEditTitle);
+      setTodoTitle(itemToEdit.title);
     }
-  }, [isEditing, itemToEditTitle]);
+  }, [isEditing, itemToEdit.title]);
 
   const createTodo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,26 +29,34 @@ const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
     setIsLoading(true);
 
     try {
-      const apiUrl = "/api/todo/create";
+      const apiUrl = isEditing
+        ? `/api/todo/${itemToEdit.id}/edit`
+        : "/api/todo/create";
+      const reqData = isEditing
+        ? { todoTitle }
+        : { todoTitle, id: itemToEdit.id };
+      const reqMethod = isEditing ? "PATCH" : "POST";
 
       const requestData = {
-        method: "POST",
+        method: reqMethod,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ todoTitle }),
+        body: JSON.stringify(reqData),
       };
 
       const response = await fetch(apiUrl, requestData);
 
       if (!response.ok) {
         throw new Error(
-          `Failed to post title: ${response.status} - ${response.statusText}`
+          `Failed to ${isEditing ? "Edit" : "Create"} Todo: ${
+            response.statusText
+          }`
         );
       }
 
       setTodoTitle("");
-      toast.success("Todo created");
+      toast.success(`${isEditing ? "Todo edited" : "Todo create"}`);
 
       // refresh page on successful request
       window.location.reload();
@@ -58,6 +65,7 @@ const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
       toast.error("something went wrong");
     } finally {
       setIsLoading(false);
+      // isEditing = false;
     }
   };
 
@@ -81,7 +89,7 @@ const Input = ({ isEditing, itemToEditTitle }: InputProps) => {
         type="submit"
         disabled={isLoading}
       >
-        {isEditing ? "Edit" : "Add"}
+        {isLoading ? "..." : isEditing ? "Edit" : "Add"}
       </button>
     </form>
   );

@@ -58,7 +58,33 @@ const TodoItem = ({
   };
 
   const deleteTask = async () => {
-    alert("deleted");
+    alert(`delete ${title}?`);
+    try {
+      const apiUrl = `/api/todo/${id}/delete`;
+
+      const requestData = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const response = await fetch(apiUrl, requestData);
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete ${title} - ${response.statusText}`);
+      }
+
+      toast.success("Todo deleted");
+
+      // refresh page on successful request
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const todoItemStyle = isCompleted
