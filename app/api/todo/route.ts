@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     //fetch all todos in the db and order by createdAt in desc order
