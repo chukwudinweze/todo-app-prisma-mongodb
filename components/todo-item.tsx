@@ -54,7 +54,6 @@ const TodoItem = ({
 
   const editTask = () => {
     handleEdit({ title, id });
-    alert("task ");
   };
 
   const deleteTask = async () => {
