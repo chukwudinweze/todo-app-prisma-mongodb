@@ -18,7 +18,7 @@ const TodoList = ({ handleEdit }: TodoListProps) => {
     const fetchTodos = async () => {
       try {
         const response = await fetch(`/api/todo`, {
-          next: { revalidate: 3600 },
+          next: { revalidate: 1 },
         });
 
         if (!response.ok) {
