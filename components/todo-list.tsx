@@ -17,7 +17,9 @@ const TodoList = ({ handleEdit }: TodoListProps) => {
     //fetch todos
     const fetchTodos = async () => {
       try {
-        const response = await fetch(`/api/todo`, { cache: "no-store" });
+        const response = await fetch(`/api/todo`, {
+          next: { revalidate: 3600 },
+        });
 
         if (!response.ok) {
           throw new Error(
