@@ -6,7 +6,7 @@ If you encounter any issues while following the tutorial, you can refer to this 
 
 ## Demo
 
-You can access the final project [here](https://todo-app-prisma-mongodb.vercel.app/).
+You can access the final project [here on vercel](https://todo-app-prisma-mongodb.vercel.app/).
 
 ## Getting Started
 
